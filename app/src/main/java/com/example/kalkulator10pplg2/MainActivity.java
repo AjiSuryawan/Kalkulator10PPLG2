@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -34,20 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 String password = txtPassword.getText().toString();
                 if (username.equalsIgnoreCase("admin") &&
                         password.equalsIgnoreCase("admin")){
-//                    Toast.makeText(getApplicationContext(), "Sukses Login", Toast.LENGTH_SHORT).show();
-                    new AlertDialog.Builder(MainActivity.this)
-                            .setTitle("Sukses")
-                            .setMessage("Login Sukses")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // Continue with delete operation
-                                }
-                            })
-
-                            // A null listener allows the button to dismiss the dialog and take no further action.
-                            .setNegativeButton(android.R.string.no, null)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
+                        startActivity(new Intent(MainActivity.this, Calculator.class));
                 }else{
                     Toast.makeText(getApplicationContext(), "Gagal Login", Toast.LENGTH_SHORT).show();
                 }
