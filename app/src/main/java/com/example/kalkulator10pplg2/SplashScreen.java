@@ -26,7 +26,7 @@ public class SplashScreen extends AppCompatActivity {
         password = sharedpreferences.getString(PASSWORD_KEY, null);
 
         if (email != null && password != null) {
-            Intent i = new Intent(SplashScreen.this, Calculator.class);
+            Intent i = new Intent(SplashScreen.this, ListContactNameActivity.class);
             startActivity(i);
         }else{
             Intent i = new Intent(SplashScreen.this, MainActivity.class);
