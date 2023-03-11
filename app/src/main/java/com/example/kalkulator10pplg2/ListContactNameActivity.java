@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class ListContactNameActivity extends AppCompatActivity {
+public class ListContactNameActivity extends AppCompatActivity implements ContactsAdapter.ContactsAdapterListener{
     RecyclerView rvKontakName;
     ArrayList<ContactModel> listDataKontak;
     private ContactsAdapter adapterListKontak;
@@ -37,11 +38,17 @@ public class ListContactNameActivity extends AppCompatActivity {
         kontakThree.setPhone("081xxxxxx");
         listDataKontak.add(kontakThree);
 
-        adapterListKontak = new ContactsAdapter(this, listDataKontak);
+        adapterListKontak = new ContactsAdapter(this, listDataKontak,this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         rvKontakName.setHasFixedSize(true);
         rvKontakName.setLayoutManager(mLayoutManager);
         rvKontakName.setAdapter(adapterListKontak);
 
+    }
+
+    @Override
+    public void onContactSelected(ContactModel contact) {
+        // move to another page
+        Toast.makeText(this, "selected name "+contact.getName(), Toast.LENGTH_SHORT).show();
     }
 }
