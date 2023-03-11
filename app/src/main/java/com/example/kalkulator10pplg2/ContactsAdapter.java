@@ -15,6 +15,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyView
 
     private Context context;
     private List<ContactModel> contactList;
+    private ContactsAdapterListener listener;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView tvname, tvphone;
@@ -23,12 +24,20 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyView
             super(view);
             tvname = view.findViewById(R.id.tvname);
             tvphone = view.findViewById(R.id.tvphone);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // send selected contact in callback
+                    listener.onContactSelected(contactList.get(getAdapterPosition()));
+                }
+            });
         }
     }
 
-    public ContactsAdapter(Context context, List<ContactModel> contactList) {
+    public ContactsAdapter(Context context, List<ContactModel> contactList , ContactsAdapterListener listener) {
         this.context = context;
         this.contactList = contactList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -51,5 +60,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyView
     @Override
     public int getItemCount() {
         return this.contactList.size();
+    }
+
+    public interface ContactsAdapterListener {
+        void onContactSelected(ContactModel contact);
     }
 }
