@@ -4,26 +4,31 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyViewHolder>{
 
     private Context context;
-    private List<ContactModel> contactList;
+    private List<EPLTeamModel> contactList;
     private ContactsAdapterListener listener;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView tvname, tvphone;
+        public ImageView ivLogoTeam;
 
         public MyViewHolder(View view) {
             super(view);
             tvname = view.findViewById(R.id.tvname);
             tvphone = view.findViewById(R.id.tvphone);
+            ivLogoTeam = view.findViewById(R.id.ivlogoteam);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -34,7 +39,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyView
         }
     }
 
-    public ContactsAdapter(Context context, List<ContactModel> contactList , ContactsAdapterListener listener) {
+    public ContactsAdapter(Context context, List<EPLTeamModel> contactList , ContactsAdapterListener listener) {
         this.context = context;
         this.contactList = contactList;
         this.listener = listener;
@@ -51,9 +56,10 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull ContactsAdapter.MyViewHolder holder, int position) {
-        final ContactModel contact = this.contactList.get(position);
-        holder.tvname.setText(contact.getName());
-        holder.tvphone.setText(contact.getPhone());
+        final EPLTeamModel contact = this.contactList.get(position);
+        holder.tvname.setText(contact.getTeamName());
+        holder.tvphone.setText(contact.getStadiun());
+        Glide.with(holder.itemView.getContext()).load(contact.getStrTeamBadge()).into(holder.ivLogoTeam);
 
     }
 
@@ -63,6 +69,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyView
     }
 
     public interface ContactsAdapterListener {
-        void onContactSelected(ContactModel contact);
+        void onContactSelected(EPLTeamModel contact);
     }
 }
