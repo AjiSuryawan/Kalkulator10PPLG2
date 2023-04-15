@@ -4,8 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
@@ -23,6 +27,7 @@ public class ListContactNameActivity extends AppCompatActivity implements Contac
     RecyclerView rvKontakName;
     ArrayList<EPLTeamModel> listDataEPLTeams;
     private ContactsAdapter adapterListKontak;
+    ProgressBar pbloadingteam;
 
     public void getEPLOnline(){
         String url = "https://www.thesportsdb.com/api/v1/json/3/search_all_teams.php?l=English%20Premier%20League";
@@ -51,6 +56,9 @@ public class ListContactNameActivity extends AppCompatActivity implements Contac
                             rvKontakName.setLayoutManager(mLayoutManager);
                             rvKontakName.setAdapter(adapterListKontak);
 
+                            pbloadingteam.setVisibility(View.GONE);
+                            rvKontakName.setVisibility(View.VISIBLE);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -64,19 +72,23 @@ public class ListContactNameActivity extends AppCompatActivity implements Contac
                 });
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_contact_name);
         listDataEPLTeams = new ArrayList<>();
+        pbloadingteam = findViewById(R.id.pbloadingteam);
         getEPLOnline();
 
 
     }
 
     @Override
-    public void onContactSelected(EPLTeamModel contact) {
+    public void onContactSelected(EPLTeamModel myteam) {
         // move to another page
-        Toast.makeText(this, "selected name "+contact.getTeamName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(ListContactNameActivity.this, DetailTeamPage.class);
+        intent.putExtra("myteam", myteam);
+        startActivity(intent);
     }
 }
